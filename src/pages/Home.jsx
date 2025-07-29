@@ -3,15 +3,8 @@ import tutorsData from '../data/tutors.json';
 import HeroSection from '../components/HeroSection';
 import Filters from '../components/Filters';
 import TutorCard from '../components/TutorCard';
-import Testimonials from "../components/Testimonials";
+import Testimonials from '../components/Testimonials';
 
-/**
- * The home page brings together the hero section, filtering controls and
- * listing of tutors. The search inputs in the hero as well as the filters
- * modify state at this level and are used to derive a filtered list of
- * tutors. The testimonial section at the bottom provides some social
- * proof and uses a decorative background.
- */
 export default function Home() {
   const [searchSubject, setSearchSubject] = useState('');
   const [searchLocation, setSearchLocation] = useState('');
@@ -42,7 +35,13 @@ export default function Home() {
         : true;
       const minMatch = minRate ? tutor.rate >= parseFloat(minRate) : true;
       const maxMatch = maxRate ? tutor.rate <= parseFloat(maxRate) : true;
-      return subjectMatch && locationMatch && subjectFilterMatch && minMatch && maxMatch;
+      return (
+        subjectMatch &&
+        locationMatch &&
+        subjectFilterMatch &&
+        minMatch &&
+        maxMatch
+      );
     });
   }, [searchSubject, searchLocation, subjectFilter, minRate, maxRate]);
 
@@ -55,6 +54,7 @@ export default function Home() {
         onSubjectChange={setSearchSubject}
         onLocationChange={setSearchLocation}
       />
+
       {/* Filters bar */}
       <div className="max-w-6xl mx-auto w-full px-6 -mt-8 relative z-20">
         <Filters
@@ -67,6 +67,7 @@ export default function Home() {
           onMaxRateChange={setMaxRate}
         />
       </div>
+
       {/* Tutor list */}
       <main className="flex-1 max-w-6xl mx-auto w-full px-6 py-12">
         {filteredTutors.length > 0 ? (
@@ -81,11 +82,10 @@ export default function Home() {
           </p>
         )}
       </main>
+
       {/* Testimonials */}
-      <TestimonialSection />
-
+      {/* <TestimonialSection /> */} {/* <- removed because it doesn't exist */}
       <Testimonials />
-
     </div>
   );
 }
