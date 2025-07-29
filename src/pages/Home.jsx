@@ -3,7 +3,7 @@ import tutorsData from '../data/tutors.json';
 import HeroSection from '../components/HeroSection';
 import Filters from '../components/Filters';
 import TutorCard from '../components/TutorCard';
-import TestimonialSection from '../components/TestimonialSection';
+import Testimonials from "../components/Testimonials";
 
 /**
  * The home page brings together the hero section, filtering controls and
