@@ -83,6 +83,9 @@ export default function Home() {
       </main>
       {/* Testimonials */}
       <TestimonialSection />
+
+      <Testimonials />
+
     </div>
   );
 }

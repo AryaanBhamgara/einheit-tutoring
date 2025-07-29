@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import TutorProfile from './pages/TutorProfile';
 import DarkModeToggle from './components/DarkModeToggle';
 import NotFound from './pages/NotFound';
+import Testimonials from "./components/Testimonials";
 
 /**
  * The root component sets up routing and dark mode for the application.
@@ -38,5 +39,6 @@ function App() {
     </Router>
   );
 }
+
 
 export default App;
