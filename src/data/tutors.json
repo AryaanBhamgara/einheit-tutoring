@@ -9,66 +9,42 @@
     "reviewsCount": 23,
     "description": "Experienced tutor with a focus on personalized learning and test prep.",
     "longDescription": "Aryaan is a seasoned educator with over five years of tutoring experience. Specialising in English, math and information technology, he crafts personalised lesson plans to ensure every student reaches their goals. When he's not teaching you'll find him exploring the latest tech trends or reading a good novel.",
-    "image": "https://images.unsplash.com/photo-1596495577886-d920f1fb7238?auto=format&fit=crop&w=500&q=80"
+    "image": "https://via.placeholder.com/500"
   },
   {
     "id": 2,
     "name": "Farhan Abrar",
-    "location": "Toronto, ON",
+    "location": "Winnipeg, MB",
     "subjects": ["Science", "Biology", "Guitar"],
     "rate": 30,
     "rating": 4.8,
     "reviewsCount": 17,
     "description": "Genetics graduate helping students excel in life sciences.",
     "longDescription": "Farhan holds a degree in Genetics and enjoys sharing his passion for the life sciences. His lessons blend academic rigour with real‑world applications to keep students engaged. Outside of tutoring he plays guitar in a local band and offers beginner guitar lessons.",
-    "image": "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=500&q=80"
+    "image": "https://via.placeholder.com/500"
   },
   {
     "id": 3,
     "name": "Zaheeb Khan",
-    "location": "Vancouver, BC",
+    "location": "Winnipeg, MB",
     "subjects": ["Economics", "Math", "Physics"],
     "rate": 28,
     "rating": 5.0,
     "reviewsCount": 32,
     "description": "Economics tutor with real‑world experience and clear explanations.",
     "longDescription": "Zaheeb brings industry experience from the finance sector into his lessons. He believes understanding the 'why' behind formulas is just as important as the 'how'. His approachable style helps students build confidence in economics, maths and physics.",
-    "image": "https://images.unsplash.com/photo-1628890925526-d2a202b87c10?auto=format&fit=crop&w=500&q=80"
+    "image": "https://via.placeholder.com/500"
   },
   {
     "id": 4,
     "name": "Sarahi Cruz",
-    "location": "Montreal, QC",
+    "location": "Puerto Rico",
     "subjects": ["Spanish", "English"],
     "rate": 22,
     "rating": 4.7,
     "reviewsCount": 12,
     "description": "Bilingual educator with a passion for language learning.",
     "longDescription": "Sarahi is a certified language teacher fluent in Spanish and English. She creates engaging, interactive sessions for beginners through advanced students. Her passion for travel and culture informs her lessons and helps students connect language learning to real life.",
-    "image": "https://images.unsplash.com/photo-1614281347295-6b1e8cdd63c8?auto=format&fit=crop&w=500&q=80"
-  },
-  {
-    "id": 5,
-    "name": "Jasmine Lee",
-    "location": "Calgary, AB",
-    "subjects": ["Chemistry", "Math"],
-    "rate": 27,
-    "rating": 4.8,
-    "reviewsCount": 20,
-    "description": "Chemistry enthusiast making science fun and approachable.",
-    "longDescription": "Jasmine has a Masters in Chemistry and loves breaking down complex scientific concepts into digestible pieces. Her students appreciate her enthusiasm and ability to relate lessons to everyday examples. When not in the lab, she enjoys hiking and photography.",
-    "image": "https://images.unsplash.com/photo-1605902711622-cfb43c4437f1?auto=format&fit=crop&w=500&q=80"
-  },
-  {
-    "id": 6,
-    "name": "Liam O'Connor",
-    "location": "Halifax, NS",
-    "subjects": ["History", "English", "Public Speaking"],
-    "rate": 24,
-    "rating": 4.6,
-    "reviewsCount": 15,
-    "description": "History buff and debate coach helping students excel.",
-    "longDescription": "Liam's passion for history and public speaking shines through in his sessions. He encourages critical thinking and helps students develop strong communication skills. Aside from tutoring he coaches the local debate team and volunteers at the museum.",
-    "image": "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=500&q=80"
+    "image": "https://via.placeholder.com/500"
   }
 ]
