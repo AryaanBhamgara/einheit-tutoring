@@ -4,6 +4,7 @@ import HeroSection from '../components/HeroSection';
 import Filters from '../components/Filters';
 import TutorCard from '../components/TutorCard';
 import Testimonials from '../components/Testimonials';
+import SubjectCarousel from "../components/SubjectCarousel";
 
 export default function Home() {
   const [searchSubject, setSearchSubject] = useState('');
@@ -55,6 +56,24 @@ export default function Home() {
         onLocationChange={setSearchLocation}
       />
 
+      {/* Subject Carousel with Clear Filter */}
+      <>
+        <SubjectCarousel
+          onSubjectClick={setSubjectFilter}
+          selectedSubject={subjectFilter}
+        />
+        {subjectFilter && (
+          <div className="text-center mt-2">
+            <button
+              onClick={() => setSubjectFilter("")}
+              className="text-sm text-pink-600 underline hover:text-pink-800"
+            >
+              Clear Subject Filter
+            </button>
+          </div>
+        )}
+      </>
+
       {/* Filters bar */}
       <div className="max-w-6xl mx-auto w-full px-6 -mt-8 relative z-20">
         <Filters
@@ -84,7 +103,6 @@ export default function Home() {
       </main>
 
       {/* Testimonials */}
-      {/* <TestimonialSection /> */} {/* <- removed because it doesn't exist */}
       <Testimonials />
     </div>
   );
