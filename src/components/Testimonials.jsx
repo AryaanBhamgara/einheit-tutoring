@@ -1,5 +1,3 @@
-import React from "react";
-
 const testimonials = [
   {
     name: "Leila R.",
@@ -28,21 +26,23 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <div className="bg-white py-12 px-6 md:px-12">
-      <h2 className="text-3xl font-bold text-center mb-10">What Students Say</h2>
+    <div className="bg-white dark:bg-gray-900 py-12 px-6 md:px-12 transition-colors duration-300">
+      <h2 className="text-3xl font-bold text-center mb-10 text-gray-800 dark:text-gray-100">
+        What Students Say
+      </h2>
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
         {testimonials.map((t, i) => (
           <div
             key={i}
-            className="bg-pink-50 p-6 rounded-2xl shadow-md flex flex-col items-center text-center"
+            className="bg-pink-50 dark:bg-gray-800 p-6 rounded-2xl shadow-md flex flex-col items-center text-center transition-colors duration-300"
           >
             <img
               src={t.image}
               alt={t.name}
               className="w-20 h-20 rounded-full object-cover mb-4 border-2 border-pink-300"
             />
-            <p className="text-gray-700 italic mb-4">"{t.quote}"</p>
-            <p className="font-semibold text-pink-600">{t.name}</p>
+            <p className="text-gray-700 dark:text-gray-300 italic mb-4">"{t.quote}"</p>
+            <p className="font-semibold text-pink-600 dark:text-pink-400">{t.name}</p>
           </div>
         ))}
       </div>
