@@ -4,7 +4,7 @@ import {
   FaLanguage,
   FaSwimmer,
   FaBaseballBall,
-  FaPiano,
+  FaMusic,
   FaMicrophone,
   FaGuitar,
   FaDumbbell,
@@ -18,7 +18,7 @@ const subjects = [
   { icon: <FaLanguage size={22} />, name: "English" },
   { icon: <FaSwimmer size={22} />, name: "Swimming" },
   { icon: <FaBaseballBall size={22} />, name: "Tennis" },
-  { icon: <FaPiano size={22} />, name: "Piano" },
+  { icon: <FaMusic size={22} />, name: "Piano" },               // ✅ fixed here
   { icon: <FaMicrophone size={22} />, name: "Singing" },
   { icon: <FaGuitar size={22} />, name: "Guitar" },
   { icon: <FaDumbbell size={22} />, name: "Personal Trainer" }
@@ -31,13 +31,15 @@ const SubjectCarousel = ({ onSubjectClick, selectedSubject }) => {
     const container = scrollRef.current;
     if (container) {
       const scrollAmount = 200;
-      container.scrollBy({ left: direction === "left" ? -scrollAmount : scrollAmount, behavior: "smooth" });
+      container.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth"
+      });
     }
   };
 
   return (
     <div className="relative bg-gradient-to-b from-pink-100 to-pink-200 py-6 px-10 rounded-3xl shadow-inner my-6 mx-auto max-w-6xl">
-      {/* Left Arrow */}
       <button
         onClick={() => scroll("left")}
         className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow p-2 rounded-full"
@@ -45,7 +47,6 @@ const SubjectCarousel = ({ onSubjectClick, selectedSubject }) => {
         <FaChevronLeft />
       </button>
 
-      {/* Scrollable subjects */}
       <div
         ref={scrollRef}
         className="flex overflow-x-auto space-x-8 scrollbar-hide px-6"
@@ -75,7 +76,6 @@ const SubjectCarousel = ({ onSubjectClick, selectedSubject }) => {
         })}
       </div>
 
-      {/* Right Arrow */}
       <button
         onClick={() => scroll("right")}
         className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow p-2 rounded-full"
