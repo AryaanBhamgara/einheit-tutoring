@@ -1,27 +1,16 @@
 import React, { useRef } from "react";
 import {
   FaCalculator,
-  FaLanguage,
-  FaSwimmer,
-  FaBaseballBall,
-  FaMusic,
-  FaMicrophone,
-  FaGuitar,
-  FaDumbbell,
+  FaBook,
+  FaLaptopCode,
   FaChevronLeft,
   FaChevronRight
 } from "react-icons/fa";
 
 const subjects = [
   { icon: <FaCalculator size={22} />, name: "Math" },
-  { icon: <FaLanguage size={22} />, name: "French" },
-  { icon: <FaLanguage size={22} />, name: "English" },
-  { icon: <FaSwimmer size={22} />, name: "Swimming" },
-  { icon: <FaBaseballBall size={22} />, name: "Tennis" },
-  { icon: <FaMusic size={22} />, name: "Piano" },               // ✅ fixed here
-  { icon: <FaMicrophone size={22} />, name: "Singing" },
-  { icon: <FaGuitar size={22} />, name: "Guitar" },
-  { icon: <FaDumbbell size={22} />, name: "Personal Trainer" }
+  { icon: <FaBook size={22} />, name: "English" },
+  { icon: <FaLaptopCode size={22} />, name: "IT" }
 ];
 
 const SubjectCarousel = ({ onSubjectClick, selectedSubject }) => {
