@@ -14,6 +14,7 @@ const subjects = [
   { icon: <FaCalculator size={22} />, name: "Math" },
   { icon: <FaBook size={22} />, name: "English" },
   { icon: <FaLaptopCode size={22} />, name: "IT" },
+   { icon: <FaLanguage size={22} />, name: "Spanish" }
 
   // Music
   { icon: <FaGuitar size={22} />, name: "Guitar" }
