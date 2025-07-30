@@ -3,14 +3,20 @@ import {
   FaCalculator,
   FaBook,
   FaLaptopCode,
+  FaGuitar,
   FaChevronLeft,
   FaChevronRight
 } from "react-icons/fa";
 
+// 👇 Subjects offered — grouped by category
 const subjects = [
+  // Academics
   { icon: <FaCalculator size={22} />, name: "Math" },
   { icon: <FaBook size={22} />, name: "English" },
-  { icon: <FaLaptopCode size={22} />, name: "IT" }
+  { icon: <FaLaptopCode size={22} />, name: "IT" },
+
+  // Music
+  { icon: <FaGuitar size={22} />, name: "Guitar" }
 ];
 
 const SubjectCarousel = ({ onSubjectClick, selectedSubject }) => {
