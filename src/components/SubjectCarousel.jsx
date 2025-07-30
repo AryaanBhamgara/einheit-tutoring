@@ -4,17 +4,18 @@ import {
   FaBook,
   FaLaptopCode,
   FaGuitar,
+  FaLanguage,           
   FaChevronLeft,
   FaChevronRight
 } from "react-icons/fa";
 
-// 👇 Subjects offered — grouped by category
+// Subjects offered — grouped by category
 const subjects = [
   // Academics
   { icon: <FaCalculator size={22} />, name: "Math" },
   { icon: <FaBook size={22} />, name: "English" },
   { icon: <FaLaptopCode size={22} />, name: "IT" },
-   { icon: <FaLanguage size={22} />, name: "Spanish" }
+  { icon: <FaLanguage size={22} />, name: "Spanish" },   
 
   // Music
   { icon: <FaGuitar size={22} />, name: "Guitar" }
