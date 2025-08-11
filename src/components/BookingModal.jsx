@@ -1,121 +1,72 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { motion } from 'framer-motion';
+import React, { useRef, useState } from "react";
+import emailjs from "emailjs-com";
 
-/**
- * Modal presenting a booking form for a tutor. Uses react‑hook‑form for
- * validation and Framer Motion for a simple scale‑in animation. On submit
- * the form will display an alert summarising the booking; in a real app
- * this would send the data to a backend service.
- *
- * Props:
- *   tutorName: Name of the tutor being booked
- *   onClose: Callback invoked when the modal or backdrop is clicked
- */
-export default function BookingModal({ tutorName, onClose }) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
+export default function BookingModal({ open, onClose, tutorName }) {
+  const formRef = useRef(null);
+  const [sending, setSending] = useState(false);
+  if (!open) return null;
 
-  const onSubmit = (data) => {
-    alert(
-      `Thank you, ${data.name}! Your request to book ${tutorName} on ${data.preferredTime} has been sent.`
-    );
-    reset();
-    onClose();
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setSending(true);
+    try {
+      await emailjs.sendForm(
+        "YOUR_SERVICE_ID",
+        "YOUR_TEMPLATE_ID",
+        formRef.current,
+        "YOUR_PUBLIC_KEY"
+      );
+      alert("Thanks! Your booking request was sent.");
+      onClose?.();
+    } catch (err) {
+      alert("Oops—couldn’t send. Please try again.");
+      console.error(err);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
-    <div
-      className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-      onClick={onClose}
-    >
-      <motion.div
-        onClick={(e) => e.stopPropagation()}
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        className="bg-white dark:bg-darkCard rounded-lg p-6 w-full max-w-md shadow-lg"
-      >
-        <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-darkText">
-          Book a lesson with {tutorName}
-        </h3>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center px-4">
+      <div className="bg-white dark:bg-darkCard rounded-2xl shadow-xl w-full max-w-md">
+        <div className="px-6 py-4 border-b flex items-center justify-between">
+          <h3 className="font-semibold">Book {tutorName}</h3>
+          <button onClick={onClose} aria-label="Close" className="text-slate-500 hover:text-slate-700">✕</button>
+        </div>
+
+        <form ref={formRef} onSubmit={onSubmit} className="px-6 py-5 space-y-3">
+          {/* Hidden tutor field for the email template */}
+          <input type="hidden" name="tutor" value={tutorName} />
+
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="name">
-              Your Name
-            </label>
-            <input
-              id="name"
-              {...register('name', { required: true })}
-              className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 bg-white dark:bg-darkBg"
-            />
-            {errors.name && (
-              <p className="text-red-500 text-xs mt-1">Name is required</p>
-            )}
+            <label className="block text-sm mb-1">Your name</label>
+            <input name="name" required className="w-full border rounded-md px-3 py-2"/>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="email">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              {...register('email', { required: true, pattern: /.+@.+\..+/ })}
-              className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 bg-white dark:bg-darkBg"
-            />
-            {errors.email && (
-              <p className="text-red-500 text-xs mt-1">Valid email is required</p>
-            )}
+            <label className="block text-sm mb-1">Email</label>
+            <input type="email" name="email" required className="w-full border rounded-md px-3 py-2"/>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="preferredTime">
-              Preferred Time
-            </label>
-            <input
-              id="preferredTime"
-              type="datetime-local"
-              {...register('preferredTime', { required: true })}
-              className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 bg-white dark:bg-darkBg"
-            />
-            {errors.preferredTime && (
-              <p className="text-red-500 text-xs mt-1">Please pick a date and time</p>
-            )}
+            <label className="block text-sm mb-1">Preferred date/time</label>
+            <input name="slot" placeholder="e.g., Tue 6:30 PM" className="w-full border rounded-md px-3 py-2"/>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="message">
-              Message
-            </label>
-            <textarea
-              id="message"
-              {...register('message', { required: true })}
-              className="w-full p-2 h-24 rounded-md border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 bg-white dark:bg-darkBg"
-            />
-            {errors.message && (
-              <p className="text-red-500 text-xs mt-1">Please include a message</p>
-            )}
+            <label className="block text-sm mb-1">Notes</label>
+            <textarea name="message" rows={3} className="w-full border rounded-md px-3 py-2"/>
           </div>
-          <div className="flex justify-end gap-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-            >
-              Cancel
-            </button>
+
+          <div className="flex items-center justify-end gap-3 pt-2">
+            <button type="button" onClick={onClose} className="px-4 py-2 rounded-md border">Cancel</button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-md bg-primary text-white hover:bg-indigo-500 transition"
+              disabled={sending}
+              className="px-4 py-2 rounded-md bg-rose-600 text-white hover:bg-rose-700 disabled:opacity-60"
             >
-              Send
+              {sending ? "Sending..." : "Send Request"}
             </button>
           </div>
         </form>
-      </motion.div>
+      </div>
     </div>
   );
 }
