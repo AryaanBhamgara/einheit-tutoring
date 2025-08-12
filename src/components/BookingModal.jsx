@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 
-const SERVICE_ID  = process.env.REACT_APP_EMAILJS_SERVICE;
-const TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE;
-const PUBLIC_KEY  = process.env.REACT_APP_EMAILJS_PUBLIC;
+// Read from .env / Vercel
+const SERVICE_ID  = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+const TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+const PUBLIC_KEY  = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
 
 export default function BookingModal({ open = false, onClose, tutorName }) {
   const formRef = useRef(null);
@@ -29,7 +30,7 @@ export default function BookingModal({ open = false, onClose, tutorName }) {
     if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
       setSending(false);
       setError("Email service not configured. Please try again later.");
-      console.warn("Missing EmailJS env vars.");
+      console.warn("Missing EmailJS env vars (SERVICE_ID / TEMPLATE_ID / PUBLIC_KEY).");
       return;
     }
 
@@ -45,7 +46,7 @@ export default function BookingModal({ open = false, onClose, tutorName }) {
     }
   };
 
-  // Close when clicking the dimmed background
+  // Close when clicking the backdrop
   const onBackdropClick = (e) => {
     if (e.target === e.currentTarget) onClose?.();
   };
@@ -64,22 +65,27 @@ export default function BookingModal({ open = false, onClose, tutorName }) {
         </div>
 
         <form ref={formRef} onSubmit={onSubmit} className="px-6 py-5 space-y-3">
+          {/* These names MUST match your EmailJS template: tutor, name, email, slot, message */}
           <input type="hidden" name="tutor" value={tutorName || ""} />
+
           <div>
             <label className="block text-sm mb-1" htmlFor="name">Your name</label>
-            <input id="name" name="name" required className="w-full border rounded-md px-3 py-2"/>
+            <input id="name" name="name" required className="w-full border rounded-md px-3 py-2" />
           </div>
+
           <div>
             <label className="block text-sm mb-1" htmlFor="email">Email</label>
-            <input id="email" type="email" name="email" required className="w-full border rounded-md px-3 py-2"/>
+            <input id="email" type="email" name="email" required className="w-full border rounded-md px-3 py-2" />
           </div>
+
           <div>
             <label className="block text-sm mb-1" htmlFor="slot">Preferred date/time</label>
-            <input id="slot" name="slot" placeholder="e.g., Tue 6:30 PM" className="w-full border rounded-md px-3 py-2"/>
+            <input id="slot" name="slot" placeholder="e.g., Tue 6:30 PM" className="w-full border rounded-md px-3 py-2" />
           </div>
+
           <div>
             <label className="block text-sm mb-1" htmlFor="message">Notes</label>
-            <textarea id="message" name="message" rows={3} className="w-full border rounded-md px-3 py-2"/>
+            <textarea id="message" name="message" rows={3} className="w-full border rounded-md px-3 py-2" />
           </div>
 
           {error && <p className="text-sm text-red-600">{error}</p>}
@@ -87,8 +93,11 @@ export default function BookingModal({ open = false, onClose, tutorName }) {
 
           <div className="flex items-center justify-end gap-3 pt-2">
             <button type="button" onClick={onClose} className="px-4 py-2 rounded-md border">Cancel</button>
-            <button type="submit" disabled={sending}
-              className="px-4 py-2 rounded-md bg-rose-600 text-white hover:bg-rose-700 disabled:opacity-60">
+            <button
+              type="submit"
+              disabled={sending}
+              className="px-4 py-2 rounded-md bg-rose-600 text-white hover:bg-rose-700 disabled:opacity-60"
+            >
               {sending ? "Sending..." : "Send Request"}
             </button>
           </div>
