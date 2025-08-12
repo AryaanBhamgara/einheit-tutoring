@@ -1,96 +1,99 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 
-export default function BookingModal({ tutorName, onClose }) {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: `I would like to book a lesson with ${tutorName}`,
-  });
-  const [status, setStatus] = useState({ loading: false, success: false, error: false });
+const SERVICE_ID  = process.env.REACT_APP_EMAILJS_SERVICE;
+const TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE;
+const PUBLIC_KEY  = process.env.REACT_APP_EMAILJS_PUBLIC;
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+export default function BookingModal({ open = false, onClose, tutorName }) {
+  const formRef = useRef(null);
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
+
+  // Close on Esc
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => e.key === "Escape" && onClose?.();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setSending(true);
+    setError("");
+
+    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
+      setSending(false);
+      setError("Email service not configured. Please try again later.");
+      console.warn("Missing EmailJS env vars.");
+      return;
+    }
+
+    try {
+      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY);
+      setSent(true);
+      setTimeout(() => onClose?.(), 1200);
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      setError("Couldn't send right now. Please try again in a minute.");
+    } finally {
+      setSending(false);
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setStatus({ loading: true, success: false, error: false });
-
-    emailjs
-      .send(
-        process.env.REACT_APP_EMAILJS_SERVICE_ID,
-        process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
-        formData,
-        process.env.REACT_APP_EMAILJS_PUBLIC_KEY
-      )
-      .then(
-        () => {
-          setStatus({ loading: false, success: true, error: false });
-          setFormData({ name: "", email: "", message: "" });
-        },
-        () => {
-          setStatus({ loading: false, success: false, error: true });
-        }
-      );
+  // Close when clicking the dimmed background
+  const onBackdropClick = (e) => {
+    if (e.target === e.currentTarget) onClose?.();
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-darkCard p-6 rounded-lg w-full max-w-md relative">
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-        >
-          ✖
-        </button>
-        <h2 className="text-2xl font-bold mb-4">Book {tutorName}</h2>
+    <div
+      className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center px-4"
+      onClick={onBackdropClick}
+      role="dialog"
+      aria-modal="true"
+    >
+      <div className="bg-white dark:bg-darkCard rounded-2xl shadow-xl w-full max-w-md">
+        <div className="px-6 py-4 border-b flex items-center justify-between">
+          <h3 className="font-semibold">Book {tutorName}</h3>
+          <button onClick={onClose} aria-label="Close" className="text-slate-500 hover:text-slate-700">✕</button>
+        </div>
 
-        {status.success && (
-          <p className="text-green-500 mb-3">Your booking request was sent successfully!</p>
-        )}
-        {status.error && (
-          <p className="text-red-500 mb-3">Something went wrong. Please try again.</p>
-        )}
+        <form ref={formRef} onSubmit={onSubmit} className="px-6 py-5 space-y-3">
+          <input type="hidden" name="tutor" value={tutorName || ""} />
+          <div>
+            <label className="block text-sm mb-1" htmlFor="name">Your name</label>
+            <input id="name" name="name" required className="w-full border rounded-md px-3 py-2"/>
+          </div>
+          <div>
+            <label className="block text-sm mb-1" htmlFor="email">Email</label>
+            <input id="email" type="email" name="email" required className="w-full border rounded-md px-3 py-2"/>
+          </div>
+          <div>
+            <label className="block text-sm mb-1" htmlFor="slot">Preferred date/time</label>
+            <input id="slot" name="slot" placeholder="e.g., Tue 6:30 PM" className="w-full border rounded-md px-3 py-2"/>
+          </div>
+          <div>
+            <label className="block text-sm mb-1" htmlFor="message">Notes</label>
+            <textarea id="message" name="message" rows={3} className="w-full border rounded-md px-3 py-2"/>
+          </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="w-full border rounded p-2"
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full border rounded p-2"
-          />
-          <textarea
-            name="message"
-            placeholder="Message"
-            value={formData.message}
-            onChange={handleChange}
-            rows="4"
-            required
-            className="w-full border rounded p-2"
-          />
-          <button
-            type="submit"
-            disabled={status.loading}
-            className="w-full bg-primary text-white py-2 rounded hover:bg-indigo-500"
-          >
-            {status.loading ? "Sending..." : "Send Booking Request"}
-          </button>
+          {error && <p className="text-sm text-red-600">{error}</p>}
+          {sent && <p className="text-sm text-green-600">Your booking request has been sent ✓</p>}
+
+          <div className="flex items-center justify-end gap-3 pt-2">
+            <button type="button" onClick={onClose} className="px-4 py-2 rounded-md border">Cancel</button>
+            <button type="submit" disabled={sending}
+              className="px-4 py-2 rounded-md bg-rose-600 text-white hover:bg-rose-700 disabled:opacity-60">
+              {sending ? "Sending..." : "Send Request"}
+            </button>
+          </div>
         </form>
       </div>
     </div>
   );
 }
-
